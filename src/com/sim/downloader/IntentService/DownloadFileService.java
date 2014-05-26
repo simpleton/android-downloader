@@ -1,4 +1,4 @@
-package com.sim.downloader.IntentService;
+package com.sim.downloader.intentservice;
 
 import android.app.IntentService;
 import android.app.PendingIntent;
@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.os.ResultReceiver;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import com.sim.downloader.IntentService.DownloadReceiver;
 import com.sim.downloader.MyActivity;
 import com.sim.downloader.R;
 
@@ -87,14 +86,9 @@ public class DownloadFileService extends IntentService {
                 while ((len = ips.read(buffer)) != -1) {
                     fos.write(buffer, 0, len);
                     downloadLength = downloadLength + len;
-                    Bundle resultData = new Bundle();
-                    int currentProgress = downloadLength * 100 / fileLength;
-                    if (currentProgress > lastProgress) {
-                        resultData.putInt(DownloadReceiver.PROGRESS, currentProgress);
-                        receiver.send(DownloadReceiver.UPDATE_PROGRESS_CODE, resultData);
-                        lastProgress = currentProgress;
-                    }
+                    sendProgress(fileLength);
                 }
+                //sendComplete();
             } else {
                 Log.e(TAG, "Server return code:" + responseCode);
             }
@@ -118,5 +112,23 @@ public class DownloadFileService extends IntentService {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void sendProgress(int fileLength) {
+        Bundle resultData;
+        resultData = new Bundle();
+        int currentProgress = downloadLength * 100 / fileLength;
+        if (currentProgress > lastProgress) {
+            resultData.putInt(DownloadReceiver.PROGRESS, currentProgress);
+            receiver.send(DownloadReceiver.UPDATE_PROGRESS_CODE, resultData);
+            lastProgress = currentProgress;
+        }
+    }
+
+    private void sendComplete() {
+        Bundle resultData;
+        resultData = new Bundle();
+        resultData.putInt(DownloadReceiver.PROGRESS, 100);
+        receiver.send(DownloadReceiver.UPDATE_PROGRESS_CODE, resultData);
     }
 }

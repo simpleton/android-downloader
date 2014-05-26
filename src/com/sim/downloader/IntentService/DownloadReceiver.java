@@ -1,4 +1,4 @@
-package com.sim.downloader.IntentService;
+package com.sim.downloader.intentservice;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -43,11 +43,13 @@ public class DownloadReceiver extends ResultReceiver {
             if (progress < 100) {
                 mBuilder.setProgress(100, progress, false)
                         .setContentText("Download in progress:" + progress);
+                mNotifyManager.notify(UPDATE_PROGRESS_CODE, mBuilder.build());
             } else {
                 mBuilder.setProgress(0, 0, false)
                         .setContentText("Download Complete");
+                mNotifyManager.notify(UPDATE_PROGRESS_CODE+1, mBuilder.build());
             }
-            mNotifyManager.notify(UPDATE_PROGRESS_CODE, mBuilder.build());
+
         }
     }
 }
