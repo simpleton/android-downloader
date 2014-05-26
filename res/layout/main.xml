@@ -16,5 +16,16 @@
             android:text="Test Intent Service"
             />
 
+    <Button
+            android:id="@+id/fileDownloadManager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test fileDownloadManager"
+            />
+    <TextView
+            android:id="@+id/downloadManager_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="download:"/>
 </LinearLayout>
 
