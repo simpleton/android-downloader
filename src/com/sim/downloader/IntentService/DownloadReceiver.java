@@ -42,7 +42,7 @@ public class DownloadReceiver extends ResultReceiver {
             Log.d(TAG, "onReceiveResult" + progress);
             if (progress < 100) {
                 mBuilder.setProgress(100, progress, false)
-                        .setContentText("Download in progress");
+                        .setContentText("Download in progress:" + progress);
             } else {
                 mBuilder.setProgress(0, 0, false)
                         .setContentText("Download Complete");
